@@ -1,0 +1,90 @@
+server:
+  port: 2303 # C?ng ch?y ?ng d?ng
+  forward-headers-strategy: framework
+  tomcat:
+    max-swallow-size: -1
+spring:
+  application:
+    name: san_tiktok  # Tên ?ng d?ng
+    admin:
+      enabled: false
+  datasource:
+    url: jdbc:oracle:thin:@//103.200.20.240:1521/ORCLPDB1?oracle.net.CONNECT_TIMEOUT=5000&oracle.jdbc.timezoneAsRegion=true
+    username: xiangquang
+    password: xiangquang9699
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    #      create ? M?i l?n ch?y s? xóa DB c? và t?o m?i toàn b? b?ng. (c?n th?n vì m?t d? li?u)
+    #      create-drop ? T?o m?i b?ng khi start, và drop h?t khi stop project.
+    #      update ? Khuyên dùng cho dev/test: T? ??ng c?p nh?t b?ng theo entity (thêm c?t, thêm b?ng).
+    #      validate ? Ch? ki?m tra entity có kh?p DB không, không t? t?o.
+    #      none ? Không làm gì c?.
+    show-sql: true      # Hi?n th? câu l?nh SQL trong console
+    database-platform: org.hibernate.dialect.Oracle12cDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+  redis:
+    host: 103.200.20.240
+    port: 6379
+  jackson:
+    serialization:
+      indent-output: true  # Format JSON ??p h?n
+    default-property-inclusion: non_null  # ?n các giá tr? null
+    time-zone: Asia/Ho_Chi_Minh
+  kafka:
+    bootstrap-servers: 103.200.20.240:9092
+    consumer:
+      group-id: san_san
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records: 5
+      max.in.flight.requests.per.connection: 2
+      properties:
+        max.poll.interval.ms: 300000 # 5 phút
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+      file-size-threshold: 2MB
+  task.scheduling.shutdown.await-termination: true
+  task.scheduling.shutdown.await-termination-period: 30s
+
+logging:
+  level:
+    root: INFO          # gi?m m?c root xu?ng INFO
+    org.springframework: INFO
+    sun.rmi: WARN        # RMI TCP log ch? WARN
+    javax.management.remote.rmi: WARN
+    org.apache.kafka: INFO
+    org.springframework.kafka: INFO
+    org.springframework.web.multipart: TRACE
+    org.apache.tomcat.util.http.fileupload: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+sansan:
+#  oauth2:
+#    audience: 7d35837988db9e81cdc6911b4e8d911e
+#    issuer: https://dev-2wz3yj5hwuzx4v4l.us.auth0.com/
+sentry:
+  dsn: https://73ad7e7bde27ae1570278cc8a56c0d6b@o4510406216581120.ingest.us.sentry.io/4510406225166336
+  # Add data like request headers and IP for users,
+  # see https://docs.sentry.io/platforms/java/guides/spring-boot/data-management/data-collected/ for more info
+  send-default-pii: true
+  # Enable sending logs to Sentry
+  logs:
+    enabled: true
+  # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
+  # We recommend adjusting this value in production.
+  traces-sample-rate: 1.0
+  logging:
+    enabled: true
+    minimum-event-level: error   # g?i lên Sentry
+    minimum-breadcrumb-level: info  # log th??ng (breadcrumb)
