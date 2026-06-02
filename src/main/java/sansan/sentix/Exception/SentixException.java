@@ -9,10 +9,10 @@ import sansan.sentix.Utils.StringUtils;
 @Getter
 @NoArgsConstructor
 public class SentixException extends RuntimeException {
-    private String status;
+    private ErrorCode errorCode;
 
-    public SentixException(Object... args) {
-        super(StringUtils.appenString(args));
-        this.status = "ERROR";
+    public SentixException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 }

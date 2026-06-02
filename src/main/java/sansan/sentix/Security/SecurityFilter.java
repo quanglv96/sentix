@@ -8,6 +8,7 @@ import org.slf4j.MDC;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import sansan.sentix.Exception.ErrorCode;
 import sansan.sentix.Exception.SentixException;
 import sansan.sentix.Service.Impl.RedisRateLimiterService;
 import sansan.sentix.Utils.KeyConfig;
@@ -96,7 +97,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (StringUtils.isNotEmpty(token)) {
             token = token.replace("Bearer ", "");
             if (tokenProvider.verifyAccessToken(token)) {
-                throw new SentixException("Access token expired");
+                throw new SentixException(ErrorCode.FORBIDDEN);
             }        }
         filterChain.doFilter(request, response);
     }

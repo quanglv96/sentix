@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.slf4j.Slf4j;
+import sansan.sentix.Exception.ErrorCode;
 import sansan.sentix.Exception.SentixException;
 
 import java.util.Map;
 
+@Slf4j
 public class CommonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -39,7 +42,8 @@ public class CommonUtils {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            throw new SentixException("Error converting object to JSON: ", e.getMessage());
+            log.error("Error converting JSON string to object: {}", obj, e);
+            throw new SentixException(ErrorCode.EXTERNAL_SERVICE_ERROR);
         }
     }
 
@@ -47,7 +51,8 @@ public class CommonUtils {
         try {
             return objectMapper.readValue(buf, new TypeReference<>() {});
         } catch (Exception e) { // Hoặc IOException tùy version Jackson
-            throw new SentixException("Error converting JSON string to object (TypeReference): " , buf, e);
+            log.error("Error converting byte array to Map (TypeReference): {}", String.valueOf(e));
+            throw new SentixException(ErrorCode.EXTERNAL_SERVICE_ERROR);
         }
     }
 

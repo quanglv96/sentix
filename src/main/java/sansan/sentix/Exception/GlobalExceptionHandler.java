@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import sansan.sentix.DTO.ExceptionDTO;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.AccessDeniedException;
 import java.util.concurrent.CompletionException;
@@ -25,23 +23,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionDTO> handleException(HttpServletRequest request, Exception e) {
+    public ResponseEntity<ExceptionResponse> handleException(HttpServletRequest request, Exception e) {
         LOGGER.error(e.getMessage());
-        ExceptionDTO exceptionDTO = new ExceptionDTO();
-        exceptionDTO.setMessage(e.getMessage());
-        exceptionDTO.setErrorCode("ERROR");
-
-        return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCode.UNKNOWN_ERROR);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SentixException.class)
-    public ResponseEntity<ExceptionDTO> handleSanException(HttpServletRequest request, SentixException e) {
+    public ResponseEntity<ExceptionResponse> handleSanException(HttpServletRequest request, SentixException e) {
         LOGGER.error(e.getMessage());
-        ExceptionDTO exceptionDTO = new ExceptionDTO();
-        exceptionDTO.setMessage(e.getMessage());
-        exceptionDTO.setErrorCode("ERROR");
-
-        return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getErrorCode());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     // Handler riêng cho async (CompletableFuture)

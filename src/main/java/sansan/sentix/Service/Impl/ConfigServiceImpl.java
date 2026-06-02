@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 import sansan.sentix.Config.SystemConfig;
 import sansan.sentix.Entity.Config;
+import sansan.sentix.Exception.ErrorCode;
 import sansan.sentix.Exception.SentixException;
 import sansan.sentix.Repository.ConfigRepository;
 import sansan.sentix.Service.ConfigService;
@@ -39,7 +40,7 @@ public class ConfigServiceImpl implements ConfigService {
             for (Config config : configs) {
                 if (ObjectUtils.isEmpty(config.getType())) {
                     LOGGER.error("Config error: {}", CommonUtils.convertObjectToJson(config));
-                    throw new SentixException("Config error:", CommonUtils.convertObjectToJson(config));
+                    throw new SentixException(ErrorCode.DATABASE_ERROR);
                 }
                 switch (config.getType()) {
                     case "AUTH":
@@ -59,7 +60,7 @@ public class ConfigServiceImpl implements ConfigService {
 //            webhookTelegram();
         } else {
             LOGGER.error("ERROR-LoadMemoryConfig: No configuration found in the database.");
-            throw new SentixException("ERROR-LoadMemoryConfig: No configuration found in the database.");
+            throw new SentixException(ErrorCode.DATABASE_ERROR);
         }
     }
 
