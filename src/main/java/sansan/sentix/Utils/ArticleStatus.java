@@ -26,7 +26,7 @@ public enum ArticleStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("[Error][CampaignStatus] Unknown DB value: " + dbData);
+        throw new IllegalArgumentException("[Error][ArticleStatus] Unknown DB value: " + dbData);
     }
 
 }

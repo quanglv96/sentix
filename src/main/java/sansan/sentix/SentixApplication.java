@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -18,6 +19,7 @@ import java.net.UnknownHostException;
 @EntityScan(basePackages = {"sansan.sentix.Entity"})
 @EnableScheduling
 @EnableKafka
+@EnableFeignClients
 public class SentixApplication {
     private static final Logger log = LoggerFactory.getLogger(SentixApplication.class);
 

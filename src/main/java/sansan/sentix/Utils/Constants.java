@@ -15,6 +15,7 @@ public interface Constants {
     DateTimeFormatter DATE_TIME_FORMATTER_3 = DateTimeFormatter.ofPattern("dd-MM");
     DateTimeFormatter DATE_TIME_FORMATTER_4 = DateTimeFormatter.ofPattern("ddMMyyyy");
     DateTimeFormatter DATE_TIME_FORMATTER_5 = DateTimeFormatter.ofPattern("HH:mm");
+    DateTimeFormatter DATE_TIME_FORMATTER_6 = DateTimeFormatter.ofPattern("yyyyMMdd");
     String PROCEDURE_SUCCESS = "00";
 
     String USER_NAME = "CLIENT_USER";

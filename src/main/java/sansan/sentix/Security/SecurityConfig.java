@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable() // tắt CSRF
                 .authorizeRequests()
+                .antMatchers("/api/local-admin/**").permitAll()
                 .anyRequest().authenticated() // tất cả request khác cần xác thực
                 .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

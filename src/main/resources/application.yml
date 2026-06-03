@@ -5,7 +5,7 @@ server:
     max-swallow-size: -1
 spring:
   application:
-    name: san_tiktok  # Tên ?ng d?ng
+    name: san_tiktok  # Tï¿½n ?ng d?ng
     admin:
       enabled: false
   datasource:
@@ -16,23 +16,26 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    #      create ? M?i l?n ch?y s? xóa DB c? và t?o m?i toàn b? b?ng. (c?n th?n vì m?t d? li?u)
-    #      create-drop ? T?o m?i b?ng khi start, và drop h?t khi stop project.
-    #      update ? Khuyên dùng cho dev/test: T? ??ng c?p nh?t b?ng theo entity (thêm c?t, thêm b?ng).
-    #      validate ? Ch? ki?m tra entity có kh?p DB không, không t? t?o.
-    #      none ? Không làm gì c?.
-    show-sql: true      # Hi?n th? câu l?nh SQL trong console
+    #      create ? M?i l?n ch?y s? xï¿½a DB c? vï¿½ t?o m?i toï¿½n b? b?ng. (c?n th?n vï¿½ m?t d? li?u)
+    #      create-drop ? T?o m?i b?ng khi start, vï¿½ drop h?t khi stop project.
+    #      update ? Khuyï¿½n dï¿½ng cho dev/test: T? ??ng c?p nh?t b?ng theo entity (thï¿½m c?t, thï¿½m b?ng).
+    #      validate ? Ch? ki?m tra entity cï¿½ kh?p DB khï¿½ng, khï¿½ng t? t?o.
+    #      none ? Khï¿½ng lï¿½m gï¿½ c?.
+    show-sql: true      # Hi?n th? cï¿½u l?nh SQL trong console
     database-platform: org.hibernate.dialect.Oracle12cDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.Oracle12cDialect
+        jdbc:
+          batch_size: 100
+        order_inserts: true
   redis:
     host: 103.200.20.240
     port: 6379
   jackson:
     serialization:
       indent-output: true  # Format JSON ??p h?n
-    default-property-inclusion: non_null  # ?n các giá tr? null
+    default-property-inclusion: non_null  # ?n cï¿½c giï¿½ tr? null
     time-zone: Asia/Ho_Chi_Minh
   kafka:
     bootstrap-servers: 103.200.20.240:9092
@@ -44,7 +47,7 @@ spring:
       max-poll-records: 5
       max.in.flight.requests.per.connection: 2
       properties:
-        max.poll.interval.ms: 300000 # 5 phút
+        max.poll.interval.ms: 300000 # 5 phï¿½t
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -86,5 +89,9 @@ sentry:
   traces-sample-rate: 1.0
   logging:
     enabled: true
-    minimum-event-level: error   # g?i lên Sentry
+    minimum-event-level: error   # g?i lï¿½n Sentry
     minimum-breadcrumb-level: info  # log th??ng (breadcrumb)
+ssi:
+  host:
+    query: https://iboard-query.ssi.com.vn
+    api: https://iboard-api.ssi.com.vn

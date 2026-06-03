@@ -1,66 +1,34 @@
 package sansan.sentix.Exception;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import sansan.sentix.Response.ApiResponse;
 
-import javax.servlet.http.HttpServletRequest;
-import java.nio.file.AccessDeniedException;
-import java.util.concurrent.CompletionException;
-
+@Log4j2
 @RestControllerAdvice
-@ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionResponse> handleException(HttpServletRequest request, Exception e) {
-        LOGGER.error(e.getMessage());
-        ExceptionResponse exceptionResponse = new ExceptionResponse(ErrorCode.UNKNOWN_ERROR);
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse<Object>> handleException(Exception ex) {
+        log.error("Unhandled exception", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse<>(
+                        ErrorCode.UNKNOWN_ERROR.getCode(),
+                        ErrorCode.UNKNOWN_ERROR.getMessage(),
+                        null
+                ));
     }
 
     @ExceptionHandler(SentixException.class)
-    public ResponseEntity<ExceptionResponse> handleSanException(HttpServletRequest request, SentixException e) {
-        LOGGER.error(e.getMessage());
-        ExceptionResponse exceptionResponse = new ExceptionResponse(e.getErrorCode());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    // Handler riêng cho async (CompletableFuture)
-    @ExceptionHandler(CompletionException.class)
-    public void handleAsyncException(HttpServletRequest request, CompletionException e) {
-        Throwable cause = e.getCause() != null ? e.getCause() : e;
-        LOGGER.error("Async exception caught: {}", cause.getMessage(), cause);
-    }
-
-    @ExceptionHandler(MultipartException.class)
-    public ResponseEntity<?> handleMultipartException(MultipartException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body("❌ Lỗi khi upload file: " + ex.getMessage());
-    }
-
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<?> handleMaxSizeException(MaxUploadSizeExceededException ex) {
-        return ResponseEntity
-                .status(HttpStatus.PAYLOAD_TOO_LARGE)
-                .body("❌ File vượt quá kích thước cho phép!");
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDenied(AccessDeniedException ex) {
-        return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body("🚫 Không có quyền truy cập!");
+    public ResponseEntity<ApiResponse<Object>> handleSentixException(SentixException ex) {
+        return ResponseEntity.badRequest()
+                .body(new ApiResponse<>(
+                        ex.getErrorCode().getCode(),
+                        ex.getErrorCode().getMessage(),
+                        null
+                ));
     }
 }

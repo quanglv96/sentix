@@ -25,8 +25,8 @@ public class SectorEntity {
     private String name;
 
     @Lob
-    @Column(name = "keywords")
-    private String keywords; // Chuỗi JSON lưu dạng mảng ["thép", "hpg"]
+    @Column(name = "industry_code")
+    private String industryCode; // Chuỗi varcar : HPG;VHM
 
     @Column(name = "sentiment_index_7d")
     private BigDecimal sentimentIndex7d;
