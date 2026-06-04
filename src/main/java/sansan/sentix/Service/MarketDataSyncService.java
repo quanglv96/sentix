@@ -9,4 +9,6 @@ public interface MarketDataSyncService {
     void syncTickers();
 
     void syncSessionPrices(MarketSession marketSession);
+
+    void crawlLatestNews();
 }

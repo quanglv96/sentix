@@ -1,5 +1,6 @@
 package sansan.sentix.Utils;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.text.Normalizer;
@@ -74,4 +75,7 @@ public class StringUtils {
         return Arrays.stream(input.split("-")).map(String::trim).filter(h -> h.matches("\\d{2}")).collect(Collectors.toList());
     }
 
+    public static String sha256Hex(String title) {
+       return DigestUtils.sha256Hex(title).toUpperCase();
+    }
 }

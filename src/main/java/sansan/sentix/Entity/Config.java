@@ -2,35 +2,37 @@ package sansan.sentix.Entity;
 
 
 import lombok.Data;
+import sansan.sentix.Entity.ConvertStatus.ConfigStatusConverter;
+import sansan.sentix.Utils.ConfigStatus;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "config")
+@Table(name = "ST_CONFIG")
 @Data
 public class Config {
     @Id
-    @Column(name = "ID")
-    private String id;
+    @Column(name = "CONFIG_KEY")
+    private String configKey;
 
-    @Column(name = "TYPE")
-    private String type; //TELEGRAM, EMAIL, etc. => AppType
-
-    @Column(name = "KEY")
-    private String key;
-
-    @Lob
-    @Column(name = "VALUE")
-    private String value;
+    @Lob // 👉 Bắt buộc phải có để map với kiểu dữ liệu CLOB trong Oracle
+    @Column(name = "CONFIG_VALUE")
+    private String configValue;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "UPDATED_AT")
+    private LocalDateTime updatedAt;
+
     @Column(name = "STATUS")
-    private String status; // "ACTIVE", "INACTIVE" => AppStatus
+    @Convert(converter = ConfigStatusConverter.class)
+    private ConfigStatus status;
 
 }

@@ -1,31 +1,26 @@
 package sansan.sentix.Service.Impl;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
-import sansan.sentix.Config.SystemConfig;
+import sansan.sentix.Config.ConfigCache;
 import sansan.sentix.Entity.Config;
 import sansan.sentix.Exception.ErrorCode;
 import sansan.sentix.Exception.SentixException;
 import sansan.sentix.Repository.ConfigRepository;
 import sansan.sentix.Service.ConfigService;
-import sansan.sentix.Utils.AppStatus;
-import sansan.sentix.Utils.CommonUtils;
-import sansan.sentix.Utils.KeyConfig;
+import sansan.sentix.Utils.ConfigStatus;
+import sansan.sentix.Utils.Constants;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 @Service
+@Log4j2
 public class ConfigServiceImpl implements ConfigService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigServiceImpl.class);
-
     @Resource
     private ConfigRepository configRepository;
 
@@ -34,44 +29,26 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public void loadMemoryConfig() {
-        List<Config> configs = configRepository.findAllByStatus(AppStatus.ACTIVE.getStatus());
-        Collections.shuffle(configs); // trộn để random prompt hugging face
+        List<Config> configs = configRepository.findAllByStatus(ConfigStatus.ACTIVE);
         if (!CollectionUtils.isEmpty(configs)) {
-            for (Config config : configs) {
-                if (ObjectUtils.isEmpty(config.getType())) {
-                    LOGGER.error("Config error: {}", CommonUtils.convertObjectToJson(config));
-                    throw new SentixException(ErrorCode.DATABASE_ERROR);
-                }
-                switch (config.getType()) {
-                    case "AUTH":
-                        SystemConfig.AUTH.put(config.getKey(), config.getValue());
-                        break;
-                    case "SYSTEM":
-                        SystemConfig.SYSTEM.put(config.getKey(), config.getValue());
-                        break;
-                    case "TELEGRAM":
-                        SystemConfig.TELEGRAM.put(config.getKey(), config.getValue());
-                        break;
-                    default:
-                        // Handle unknown type
-                        break;
-                }
-            }
+            ConfigCache.putAll(configs);
+            log.info("Loaded {} configs into Redis cache", configs.size());
 //            webhookTelegram();
         } else {
-            LOGGER.error("ERROR-LoadMemoryConfig: No configuration found in the database.");
+            log.error("ERROR-LoadMemoryConfig: No configuration found in the database.");
             throw new SentixException(ErrorCode.DATABASE_ERROR);
         }
     }
 
     private void webhookTelegram() {
-        String urlRename = SystemConfig.TELEGRAM.get(KeyConfig.CONFIG_WEBHOOK).replace(KeyConfig.BOT_TOKEN, SystemConfig.TELEGRAM.get(KeyConfig.API_TOKEN)).replace(KeyConfig.URL_WEBHOOK, SystemConfig.TELEGRAM.get(KeyConfig.URL_RECEIVE));
+        String urlRename = ConfigCache.getConfig(Constants.TELEGRAM_SYNTAX_WEB_HOOK)
+                .replace(Constants.BOT_TOKEN, ConfigCache.getConfig(Constants.TELEGRAM_TOKEN_ADMIN)
+                        .replace(Constants.URL_WEBHOOK, ConfigCache.getConfig(Constants.TELEGRAM_URL_RECEIVE_ADMIN)));
 
         ResponseEntity<String> responseRename = restTemplate.exchange(urlRename, HttpMethod.POST, null, String.class);
         if (responseRename.getStatusCode().isError()) {
-            LOGGER.error("Failed to send message to Telegram: {}", responseRename.getBody());
+            log.error("Failed to send message to Telegram: {}", responseRename.getBody());
         }
-        LOGGER.info("Telegram response: {}", responseRename.getBody());
-
+        log.info("Telegram response: {}", responseRename.getBody());
     }
 }

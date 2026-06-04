@@ -21,7 +21,7 @@ spring:
     #      update ? Khuy�n d�ng cho dev/test: T? ??ng c?p nh?t b?ng theo entity (th�m c?t, th�m b?ng).
     #      validate ? Ch? ki?m tra entity c� kh?p DB kh�ng, kh�ng t? t?o.
     #      none ? Kh�ng l�m g� c?.
-    show-sql: true      # Hi?n th? c�u l?nh SQL trong console
+    show-sql: false      # Hi?n th? c�u l?nh SQL trong console
     database-platform: org.hibernate.dialect.Oracle12cDialect
     properties:
       hibernate:
@@ -72,10 +72,6 @@ logging:
     org.apache.tomcat.util.http.fileupload: DEBUG
     org.springframework.web: INFO
     org.springframework.security: INFO
-sansan:
-#  oauth2:
-#    audience: 7d35837988db9e81cdc6911b4e8d911e
-#    issuer: https://dev-2wz3yj5hwuzx4v4l.us.auth0.com/
 sentry:
   dsn: https://73ad7e7bde27ae1570278cc8a56c0d6b@o4510406216581120.ingest.us.sentry.io/4510406225166336
   # Add data like request headers and IP for users,
@@ -95,3 +91,5 @@ ssi:
   host:
     query: https://iboard-query.ssi.com.vn
     api: https://iboard-api.ssi.com.vn
+cafe-f:
+  host: https://cafef.vn

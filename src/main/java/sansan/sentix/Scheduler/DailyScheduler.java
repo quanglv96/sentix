@@ -24,4 +24,9 @@ public class DailyScheduler extends SafeScheduler {
         runSafe("syncSessionPricesEndOfDay", () -> marketDataSyncService.syncSessionPrices(MarketSession.END_OF_DAY));
     }
 
+    @Scheduled(cron = "2 * 4-22 * * ?", zone = "Asia/Ho_Chi_Minh")
+    public void crawlLatestNews() {
+        runSafe("crawlLatestNews", () -> marketDataSyncService.crawlLatestNews());
+    }
+
 }

@@ -5,26 +5,24 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public enum UserStatus {
-
+public enum ConfigStatus {
     ACTIVE(1),
-    ONLINE(2),
-    BLOCK(0),
+    INACTIVE(2),
     ;
 
     private final Integer value;
 
-    UserStatus(Integer value) {
+    ConfigStatus(Integer value) {
         this.value = value;
     }
 
-    public static UserStatus fromValue(Integer dbData) {
-        for (UserStatus status : UserStatus.values()) {
+    public static ConfigStatus fromValue(Integer dbData) {
+        for (ConfigStatus status : ConfigStatus.values()) {
             if (Objects.equals(status.value, dbData)) {
                 return status;
             }
         }
-        throw new IllegalArgumentException("[Error][UserStatus] Unknown DB value: " + dbData);
+        throw new IllegalArgumentException("[Error][ConfigStatus] Unknown DB value: " + dbData);
     }
 
 }

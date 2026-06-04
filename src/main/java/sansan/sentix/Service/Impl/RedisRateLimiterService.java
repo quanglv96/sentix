@@ -5,11 +5,10 @@ import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import sansan.sentix.Config.SystemConfig;
+import sansan.sentix.Config.ConfigCache;
 import sansan.sentix.Service.RedisService;
 import sansan.sentix.Utils.Constants;
 import sansan.sentix.Utils.DateTimeUtils;
-import sansan.sentix.Utils.KeyConfig;
 import sansan.sentix.Utils.RequestUtils;
 
 import javax.annotation.Resource;
@@ -40,10 +39,10 @@ public class RedisRateLimiterService {
         }
         if (ObjectUtils.isEmpty(MAX_REQUESTS)
                 || ObjectUtils.isEmpty(WINDOW_SECOND)
-                || !MAX_REQUESTS.toString().equalsIgnoreCase(SystemConfig.SYSTEM.get(KeyConfig.RATE_LIMIT_MAX_REQ))
-                || !WINDOW_SECOND.toString().equalsIgnoreCase(SystemConfig.SYSTEM.get(KeyConfig.RATE_LIMIT_WINDOW_SECONDS))) {
-            MAX_REQUESTS = Long.valueOf(SystemConfig.SYSTEM.get(KeyConfig.RATE_LIMIT_MAX_REQ));        // Số request tối đa
-            WINDOW_SECOND = Long.parseLong(SystemConfig.SYSTEM.get(KeyConfig.RATE_LIMIT_WINDOW_SECONDS)); // Trong 10 giây
+                || !MAX_REQUESTS.toString().equalsIgnoreCase(ConfigCache.getConfig(Constants.RATE_LIMIT_MAX_REQ))
+                || !WINDOW_SECOND.toString().equalsIgnoreCase(ConfigCache.getConfig(Constants.RATE_LIMIT_WINDOW_SECONDS))) {
+            MAX_REQUESTS = Long.valueOf(ConfigCache.getConfig((Constants.RATE_LIMIT_MAX_REQ)));        // Số request tối đa
+            WINDOW_SECOND = Long.parseLong(ConfigCache.getConfig((Constants.RATE_LIMIT_WINDOW_SECONDS))); // Trong 10 giây
         }
         if (!checkLimit(ip)) {
             redisService.putBlockIp(ip, DateTimeUtils.nowLocalDateTime().format(Constants.DATE_TIME_FORMATTER_1));

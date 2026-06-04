@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import sansan.sentix.Utils.Constants;
 import sansan.sentix.Utils.DateTimeUtils;
-import sansan.sentix.Utils.KeyConfig;
-import sansan.sentix.Config.SystemConfig;
 import sansan.sentix.Utils.RequestUtils;
 
 import java.security.Key;
@@ -27,8 +25,8 @@ public class TokenProvider {
     private Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 
     private void verifyRequest() {
-        String sessionId = RequestUtils.getHeader(KeyConfig.SESSION_ID);
-        String device = RequestUtils.getHeader(KeyConfig.USER_AGENT);
+        String sessionId = RequestUtils.getHeader(Constants.SESSION_ID);
+        String device = RequestUtils.getHeader(Constants.USER_AGENT);
         if (StringUtils.isEmpty(sessionId) || StringUtils.isEmpty(device)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
@@ -36,16 +34,15 @@ public class TokenProvider {
 
     public String generateAccessToken() {
         verifyRequest();
-        String sessionId = RequestUtils.getHeader(KeyConfig.SESSION_ID);
-        String device = RequestUtils.getHeader(KeyConfig.USER_AGENT);
+        String sessionId = RequestUtils.getHeader(Constants.SESSION_ID);
+        String device = RequestUtils.getHeader(Constants.USER_AGENT);
         Date now = DateTimeUtils.nowDate();
         long expirationMillis = 2 * 60 * 1000;
         return Jwts.builder()
-                .setSubject(KeyConfig.USER_NAME)
+                .setSubject(Constants.USER_NAME)
                 .claim(Constants.SESSION_ID, sessionId)          // lưu session FE
                 .claim("rnd", UUID.randomUUID().toString())  // giá trị ngẫu nhiên tăng độ khó đoán
                 .claim("ts", now.getTime())        // timestamp
-                .claim("sk", SystemConfig.AUTH.get(KeyConfig.SECRET_KEY))                 // secretKey hiện tại
                 .claim("dv", device)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + expirationMillis))
@@ -57,10 +54,10 @@ public class TokenProvider {
     public boolean verifyAccessToken(String token) {
         Claims claims = parseAccessToken(token); // parse token
         String sessionInToken = claims.get("sessionId", String.class); // lấy sessionId từ claim
-        String sessionHeader = RequestUtils.getHeader(KeyConfig.SESSION_ID);
+        String sessionHeader = RequestUtils.getHeader(Constants.SESSION_ID);
         String role = claims.get("sub", String.class);
         String dv = claims.get("dv", String.class);
-        String device = RequestUtils.getHeader(KeyConfig.USER_AGENT);
+        String device = RequestUtils.getHeader(Constants.USER_AGENT);
         return sessionHeader != null
                 && sessionHeader.equals(sessionInToken)
                 && StringUtils.isNotEmpty(device)

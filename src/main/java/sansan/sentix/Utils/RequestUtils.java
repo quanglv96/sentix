@@ -39,8 +39,8 @@ public class RequestUtils {
     }
 
     private static String getHeader(String headerName, HttpServletRequest request) {
-        if (headerName.equalsIgnoreCase(KeyConfig.X_FORWARDED_HOST)
-                || headerName.equalsIgnoreCase(KeyConfig.HOST)) {
+        if (headerName.equalsIgnoreCase(Constants.X_FORWARDED_HOST)
+                || headerName.equalsIgnoreCase(Constants.HOST)) {
             return getHostServer(request);
         }
         String stringHeader = request.getHeader(headerName);
@@ -60,27 +60,27 @@ public class RequestUtils {
     }
 
     public static String getSessionId() {
-        return getHeader(KeyConfig.SESSION_ID);
+        return getHeader(Constants.SESSION_ID);
     }
 
     public static String getUsername() {
-        return getHeader(KeyConfig.USERNAME);
+        return getHeader(Constants.USERNAME);
     }
 
     public static String getUserId() {
-        return getHeader(KeyConfig.USER_ID);
+        return getHeader(Constants.USER_ID);
     }
 
     public static String getSessionId(HttpServletRequest request) {
-        return getHeader(KeyConfig.SESSION_ID, request);
+        return getHeader(Constants.SESSION_ID, request);
     }
 
     public static String getDeviceId() {
-        return getHeader(KeyConfig.USER_AGENT);
+        return getHeader(Constants.USER_AGENT);
     }
 
     public static String getDeviceId(HttpServletRequest request) {
-        return getHeader(KeyConfig.USER_AGENT, request);
+        return getHeader(Constants.USER_AGENT, request);
     }
 
     public static String getClientIp(HttpServletRequest request) {
@@ -107,9 +107,9 @@ public class RequestUtils {
      * Lấy host server chính xác, ưu tiên X-Forwarded-Host nếu có.
      */
     public static String getHostServer(HttpServletRequest request) {
-        String host = request.getHeader(KeyConfig.X_FORWARDED_HOST);
+        String host = request.getHeader(Constants.X_FORWARDED_HOST);
         if (StringUtils.isEmpty(host)) {
-            host = request.getHeader(KeyConfig.HOST);
+            host = request.getHeader(Constants.HOST);
         }
         if (StringUtils.isEmpty(host)) {
             host = request.getServerName(); // fallback localhost / IP

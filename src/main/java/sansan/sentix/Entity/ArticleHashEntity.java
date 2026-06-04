@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 public class ArticleHashEntity {
 
     @Id
-    @Column(name = "title_hash", length = 64)
+    @Column(name = "title_hash")
     private String titleHash;
 
-    @Column(name = "ARTICLE_ID", length = 64)
+    @Column(name = "ARTICLE_ID")
     private Long articleId;
 
     @Column(name = "created_at")

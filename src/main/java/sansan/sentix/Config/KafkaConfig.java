@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.listener.ContainerProperties;
+import sansan.sentix.Utils.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +74,34 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3); // 3 thread đọc song song (mỗi partition 1 thread)
         factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> socialConsumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        // group riêng
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, Constants.TOPIC_ANALYSIS_NEWS);
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerializer);
+        config.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 1);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerializer);
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+        config.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 600000);
+        // ❗ tắt auto commit
+        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
+
+    @Bean("analysisNewsKafkaListenerContainerFactory")
+    public ConcurrentKafkaListenerContainerFactory<String, String> analysisNewsKafkaListenerContainerFactory() {
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(socialConsumerFactory());
+        // ❗ chỉ chạy 1 consumer
+        factory.setConcurrency(3);
+        factory.getContainerProperties().setPollTimeout(3000);
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return factory;
     }
 }

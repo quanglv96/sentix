@@ -11,7 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import sansan.sentix.Exception.ErrorCode;
 import sansan.sentix.Exception.SentixException;
 import sansan.sentix.Service.Impl.RedisRateLimiterService;
-import sansan.sentix.Utils.KeyConfig;
+import sansan.sentix.Utils.Constants;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
@@ -93,7 +93,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             response.getWriter().write("Too many requests");
             return;
         }
-        String token = request.getHeader(KeyConfig.AUTHORIZATION);
+        String token = request.getHeader(Constants.AUTHORIZATION);
         if (StringUtils.isNotEmpty(token)) {
             token = token.replace("Bearer ", "");
             if (tokenProvider.verifyAccessToken(token)) {

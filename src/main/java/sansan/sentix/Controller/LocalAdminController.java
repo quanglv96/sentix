@@ -28,4 +28,9 @@ public class LocalAdminController {
     public void syncSessionPrices() {
         marketDataSyncService.syncSessionPrices(MarketSession.MID_DAY);
     }
+
+    @GetMapping("/crawl-last-news")
+    public void crawlLatestNews() {
+        marketDataSyncService.crawlLatestNews();
+    }
 }
