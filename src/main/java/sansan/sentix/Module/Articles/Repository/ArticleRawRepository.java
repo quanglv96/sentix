@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import sansan.sentix.Module.Articles.Entity.ArticlesRawEntity;
-import sansan.sentix.common.Utils.ArticlesRawStatus;
+import sansan.sentix.Module.Articles.Utils.ArticlesRawStatus;
 
 @Repository
 public interface ArticleRawRepository extends JpaRepository<ArticlesRawEntity, Long> {

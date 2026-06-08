@@ -1,8 +1,8 @@
 package sansan.sentix.Module.User.Entity;
 
 import lombok.Data;
-import sansan.sentix.Entity.ConvertStatus.UserStatusConverter;
-import sansan.sentix.common.Utils.UserStatus;
+import sansan.sentix.Module.User.Converter.UserStatusConverter;
+import sansan.sentix.Module.User.Utils.UserStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

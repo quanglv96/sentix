@@ -3,9 +3,9 @@ package sansan.sentix.Module.Articles.Entity;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import sansan.sentix.Module.Articles.Convert.ArticlesRawStatusConverter;
-import sansan.sentix.Entity.ConvertStatus.SourceTypeArticlesConverter;
-import sansan.sentix.common.Utils.ArticlesRawStatus;
-import sansan.sentix.common.Utils.SourceTypeArticles;
+import sansan.sentix.Module.Articles.Convert.SourceTypeArticlesConverter;
+import sansan.sentix.Module.Articles.Utils.ArticlesRawStatus;
+import sansan.sentix.Module.Articles.Utils.SourceTypeArticles;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
@@ -16,9 +17,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @SpringBootApplication(scanBasePackages = "sansan")
-@EntityScan(basePackages = {"sansan.sentix.Entity","sansan.sentix.Module.Articles.Entity", "sansan.sentix.Module.Market.Entity","sansan.sentix.Module.User.Entity"})
+@EntityScan(basePackages = {"sansan.sentix.Module.Config.Entity","sansan.sentix.Module.Articles.Entity",
+        "sansan.sentix.Module.Market.Entity","sansan.sentix.Module.User.Entity"})
 @EnableScheduling
 @EnableKafka
+@EnableCaching
 @EnableFeignClients
 public class SentixApplication {
     private static final Logger log = LoggerFactory.getLogger(SentixApplication.class);

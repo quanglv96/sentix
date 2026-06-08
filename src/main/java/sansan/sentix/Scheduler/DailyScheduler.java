@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import sansan.sentix.Module.Market.Service.MarketDataSyncService;
-import sansan.sentix.common.Utils.MarketSession;
+import sansan.sentix.Module.Market.Utils.MarketSession;
 
 import javax.annotation.Resource;
 

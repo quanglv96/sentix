@@ -2,16 +2,16 @@ package sansan.sentix.Module.Articles.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import sansan.sentix.common.Config.ConfigCache;
-import sansan.sentix.common.Exception.ErrorCode;
-import sansan.sentix.common.Exception.SentixException;
-import sansan.sentix.Factory.CrawlNews.CrawlNewsFactory;
-import sansan.sentix.Factory.CrawlNews.CrawlNewsService;
+import sansan.sentix.Common.Cache.GlobalCache;
+import sansan.sentix.Common.Exception.ErrorCode;
+import sansan.sentix.Common.Exception.SentixException;
+import sansan.sentix.Module.Articles.Factory.CrawlNews.CrawlNewsFactory;
+import sansan.sentix.Module.Articles.Factory.CrawlNews.CrawlNewsService;
 import sansan.sentix.Module.Articles.Entity.ArticlesRawEntity;
 import sansan.sentix.Module.Articles.Repository.ArticleRawRepository;
 import sansan.sentix.Module.Articles.Service.ArticlesRawService;
-import sansan.sentix.common.Utils.ArticlesRawStatus;
-import sansan.sentix.common.Utils.Constants;
+import sansan.sentix.Module.Articles.Utils.ArticlesRawStatus;
+import sansan.sentix.Common.Utils.Constants;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class ArticlesRawServiceImpl implements ArticlesRawService {
             return true;
         }
 
-        String[] blacklistKeywords = ConfigCache
+        String[] blacklistKeywords = GlobalCache
                 .getConfig(Constants.ARTICLE_BLACKLIST_KEYWORDS)
                 .toLowerCase()
                 .split(",");
@@ -130,7 +130,7 @@ public class ArticlesRawServiceImpl implements ArticlesRawService {
     }
 
     private static Set<String> getTickerSet() {
-        String tickerConfig = ConfigCache.getConfig(Constants.TICKER_LIST);
+        String tickerConfig = GlobalCache.getConfig(Constants.TICKER_LIST);
         if (!tickerConfig.equals(lastTickerConfig)) {
             tickerSet = Arrays.stream(tickerConfig.split(";"))
                     .map(String::trim)

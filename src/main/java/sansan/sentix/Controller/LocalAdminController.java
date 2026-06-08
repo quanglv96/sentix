@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sansan.sentix.Module.Market.Service.MarketDataSyncService;
-import sansan.sentix.common.Utils.MarketSession;
+import sansan.sentix.Module.Market.Utils.MarketSession;
 
 import javax.annotation.Resource;
 

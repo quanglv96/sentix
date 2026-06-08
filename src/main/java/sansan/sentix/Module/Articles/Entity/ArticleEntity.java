@@ -2,7 +2,7 @@ package sansan.sentix.Module.Articles.Entity;
 
 import lombok.Data;
 import sansan.sentix.Module.Articles.Convert.ArticleStatusConverter;
-import sansan.sentix.common.Utils.ArticleStatus;
+import sansan.sentix.Module.Articles.Utils.ArticleStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

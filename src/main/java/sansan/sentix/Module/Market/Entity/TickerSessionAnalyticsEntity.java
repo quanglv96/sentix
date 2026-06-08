@@ -1,8 +1,8 @@
 package sansan.sentix.Module.Market.Entity;
 
 import lombok.Data;
-import sansan.sentix.Entity.ConvertStatus.MarketSessionConverter;
-import sansan.sentix.common.Utils.MarketSession;
+import sansan.sentix.Module.Market.Converter.MarketSessionConverter;
+import sansan.sentix.Module.Market.Utils.MarketSession;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
