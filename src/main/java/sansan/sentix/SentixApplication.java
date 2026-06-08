@@ -16,7 +16,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @SpringBootApplication(scanBasePackages = "sansan")
-@EntityScan(basePackages = {"sansan.sentix.Entity"})
+@EntityScan(basePackages = {"sansan.sentix.Entity","sansan.sentix.Module.Articles.Entity", "sansan.sentix.Module.Market.Entity","sansan.sentix.Module.User.Entity"})
 @EnableScheduling
 @EnableKafka
 @EnableFeignClients
