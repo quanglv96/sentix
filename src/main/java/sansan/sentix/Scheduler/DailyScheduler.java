@@ -3,8 +3,8 @@ package sansan.sentix.Scheduler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import sansan.sentix.Service.MarketDataSyncService;
-import sansan.sentix.Utils.MarketSession;
+import sansan.sentix.Module.Market.Service.MarketDataSyncService;
+import sansan.sentix.common.Utils.MarketSession;
 
 import javax.annotation.Resource;
 

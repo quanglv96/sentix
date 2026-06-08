@@ -3,7 +3,7 @@ package sansan.sentix.Entity;
 
 import lombok.Data;
 import sansan.sentix.Entity.ConvertStatus.ConfigStatusConverter;
-import sansan.sentix.Utils.ConfigStatus;
+import sansan.sentix.common.Utils.ConfigStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;

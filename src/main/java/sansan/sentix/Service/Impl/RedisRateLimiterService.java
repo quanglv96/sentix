@@ -5,11 +5,11 @@ import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import sansan.sentix.Config.ConfigCache;
+import sansan.sentix.common.Config.ConfigCache;
 import sansan.sentix.Service.RedisService;
-import sansan.sentix.Utils.Constants;
-import sansan.sentix.Utils.DateTimeUtils;
-import sansan.sentix.Utils.RequestUtils;
+import sansan.sentix.common.Utils.Constants;
+import sansan.sentix.common.Utils.DateTimeUtils;
+import sansan.sentix.common.Utils.RequestUtils;
 
 import javax.annotation.Resource;
 import java.time.Duration;

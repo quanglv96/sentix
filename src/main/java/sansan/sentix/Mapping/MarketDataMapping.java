@@ -1,10 +1,10 @@
 package sansan.sentix.Mapping;
 
 import org.springframework.stereotype.Component;
-import sansan.sentix.Entity.TickerSessionAnalyticsEntity;
+import sansan.sentix.Module.Market.Entity.TickerSessionAnalyticsEntity;
 import sansan.sentix.Response.SSI.SsiStockMultipleRes;
-import sansan.sentix.Utils.Constants;
-import sansan.sentix.Utils.MarketSession;
+import sansan.sentix.common.Utils.Constants;
+import sansan.sentix.common.Utils.MarketSession;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

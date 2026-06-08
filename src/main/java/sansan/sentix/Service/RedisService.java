@@ -3,7 +3,7 @@ package sansan.sentix.Service;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import sansan.sentix.Utils.Constants;
+import sansan.sentix.common.Utils.Constants;
 
 import javax.annotation.Resource;
 

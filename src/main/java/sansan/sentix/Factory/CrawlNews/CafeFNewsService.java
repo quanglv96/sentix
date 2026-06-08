@@ -8,9 +8,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sansan.sentix.Client.CafeFClient;
+import sansan.sentix.common.Client.CafeFClient;
 import sansan.sentix.Request.ArticlesRawMessage;
-import sansan.sentix.Utils.SourceTypeArticles;
+import sansan.sentix.common.Utils.SourceTypeArticles;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;

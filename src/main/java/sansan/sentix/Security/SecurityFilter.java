@@ -8,10 +8,10 @@ import org.slf4j.MDC;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sansan.sentix.Exception.ErrorCode;
-import sansan.sentix.Exception.SentixException;
+import sansan.sentix.common.Exception.ErrorCode;
+import sansan.sentix.common.Exception.SentixException;
 import sansan.sentix.Service.Impl.RedisRateLimiterService;
-import sansan.sentix.Utils.Constants;
+import sansan.sentix.common.Utils.Constants;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;

@@ -1,7 +1,7 @@
 package sansan.sentix.Factory.CrawlNews;
 
 import sansan.sentix.Request.ArticlesRawMessage;
-import sansan.sentix.Utils.SourceTypeArticles;
+import sansan.sentix.common.Utils.SourceTypeArticles;
 
 import java.util.List;
 

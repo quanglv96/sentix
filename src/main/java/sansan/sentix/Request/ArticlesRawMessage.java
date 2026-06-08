@@ -1,7 +1,7 @@
 package sansan.sentix.Request;
 
 import lombok.Data;
-import sansan.sentix.Utils.SourceTypeArticles;
+import sansan.sentix.common.Utils.SourceTypeArticles;
 
 import java.time.LocalDateTime;
 

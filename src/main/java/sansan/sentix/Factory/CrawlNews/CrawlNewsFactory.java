@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import sansan.sentix.Exception.ErrorCode;
-import sansan.sentix.Exception.SentixException;
-import sansan.sentix.Utils.SourceTypeArticles;
+import sansan.sentix.common.Exception.ErrorCode;
+import sansan.sentix.common.Exception.SentixException;
+import sansan.sentix.common.Utils.SourceTypeArticles;
 
 import java.util.List;
 import java.util.Map;
