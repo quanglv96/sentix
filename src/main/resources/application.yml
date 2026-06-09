@@ -93,3 +93,5 @@ ssi:
     api: https://iboard-api.ssi.com.vn
 cafe-f:
   host: https://cafef.vn
+ai:
+  gemini: https://generativelanguage.googleapis.com

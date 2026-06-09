@@ -181,6 +181,8 @@
                             <version>1.5.2.Final</version>
                         </path>
                     </annotationProcessorPaths>
+                    <source>13</source>
+                    <target>13</target>
                 </configuration>
             </plugin>
             <plugin>

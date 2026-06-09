@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import sansan.sentix.Common.Utils.Constants;
 import sansan.sentix.Module.Articles.ArticlesService;
 import sansan.sentix.Common.Client.SsiApiClient;
 import sansan.sentix.Common.Client.SsiQueryClient;
@@ -138,7 +139,7 @@ public class MarketDataSyncServiceImpl implements MarketDataSyncService {
         // 4. Bắn toàn bộ đống bài viết mới tinh thu thập được sang Kafka cho AI xử lý
         for (ArticlesRawEntity article : raw) {
             // Key của Kafka dùng TITLE_HASH để đảm bảo các bài viết trùng lặp đi vào đúng phân vùng (Partition)
-//            kafkaTemplate.send(Constants.TOPIC_ANALYSIS_NEWS, String.valueOf(article.getId()));
+            kafkaTemplate.send(Constants.TOPIC_ANALYSIS_NEWS, String.valueOf(article.getId()));
             articlesService.analyzeNewsRaw(article.getId());
         }
 

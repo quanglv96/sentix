@@ -3,6 +3,9 @@ package sansan.sentix.Module.Articles;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import sansan.sentix.Common.Request.ArticleSentimentRequest;
+import sansan.sentix.Common.Response.ArticleSentimentResponse;
+import sansan.sentix.Module.AiIntegration.AiIntegrationService;
 import sansan.sentix.Module.Articles.Entity.ArticleHashEntity;
 import sansan.sentix.Module.Articles.Entity.ArticlesRawEntity;
 import sansan.sentix.Module.Articles.Entity.CrawlTargetEntity;
@@ -41,6 +44,9 @@ public class ArticlesServiceImpl implements ArticlesService {
 
     @Resource
     private CrawlTargetRepository crawlTargetRepository;
+
+    @Resource
+    private AiIntegrationService aiIntegrationService;
 
     @Resource
     @Qualifier(value = "crawlNews")
@@ -110,5 +116,15 @@ public class ArticlesServiceImpl implements ArticlesService {
             raw.add(rawEntity);
         }
         return raw;
+    }
+
+    @Override
+    public boolean analyzeArticleSentiment(ArticlesRawEntity raw) {
+        ArticleSentimentRequest request = ArticleSentimentRequest.builder()
+                .title(raw.getTitle())
+                .content(raw.getRawContent())
+                .build();
+        ArticleSentimentResponse response = aiIntegrationService.analyzeArticleSentiment(request);
+        return false;
     }
 }

@@ -8,4 +8,6 @@ public interface ArticlesService {
     void analyzeNewsRaw(Long idArticlesRaw);
 
     List<ArticlesRawEntity> crawlLatestNews();
+
+    boolean analyzeArticleSentiment(ArticlesRawEntity raw);
 }

@@ -60,23 +60,26 @@ public class ArticlesRawServiceImpl implements ArticlesRawService {
             } else {
                 rawEntity.setRawContent(rawContent);
                 rawEntity.setStatus(ArticlesRawStatus.ACTIVE);
-                // 🔥 BỔ SUNG 3: Trích xuất danh sách Ticker từ tiêu đề đối với bài viết hợp lệ
-                List<String> detectedTickers = extractTickers(rawEntity.getTitle());
-                if (!detectedTickers.isEmpty()) {
-                    log.info("Extracted tickers. id={}, tickers={}", rawEntity.getId(), detectedTickers);
-                    // Chuyển List thành chuỗi dạng "HPG;SSI" để chuẩn bị lưu DB hoặc xử lý bắn Kafka gửi đi
-                    String tickersStr = String.join(";", detectedTickers);
-                    rawEntity.setTicker(tickersStr); // Hãy đảm bảo thuộc tính này có sẵn trong Entity của bạn
-                    log.info("🎯 Phát hiện các mã cổ phiếu trong tiêu đề: {}", tickersStr);
-                }
+//                // 🔥 BỔ SUNG 3: Trích xuất danh sách Ticker từ tiêu đề đối với bài viết hợp lệ
+//                List<String> detectedTickers = extractTickers(rawEntity.getTitle());
+//                if (!detectedTickers.isEmpty()) {
+//                    log.info("Extracted tickers. id={}, tickers={}", rawEntity.getId(), detectedTickers);
+//                    // Chuyển List thành chuỗi dạng "HPG;SSI" để chuẩn bị lưu DB hoặc xử lý bắn Kafka gửi đi
+//                    String tickersStr = String.join(";", detectedTickers);
+//                    rawEntity.setTicker(tickersStr); // Hãy đảm bảo thuộc tính này có sẵn trong Entity của bạn
+//                    log.info("🎯 Phát hiện các mã cổ phiếu trong tiêu đề: {}", tickersStr);
+//                } => đang dính max USD trùng với mã tiền tệ
             }
+
         } catch (Exception e) {
             log.error("Analyze article failed. idArticlesRaw={}", idArticlesRaw, e);
             rawEntity.setStatus(ArticlesRawStatus.ERROR);
             rawEntity.setErrorMessage(e.getMessage());
+            throw new SentixException(ErrorCode.BUSINESS_ERROR);
         } finally {
             articleRawRepository.save(rawEntity);
         }
+        // nếu raw
     }
 
     /**
